@@ -13,7 +13,6 @@ public class IndexModel : PageModel
     [BindProperty]
     public string Password { get; set; }
 
-    //private readonly string _loginPath = "/Index";
     public IndexModel()
     {
 
@@ -29,16 +28,6 @@ public class IndexModel : PageModel
         string username = Username;
         string password = Password;
 
-        if (string.IsNullOrEmpty(username))
-        {
-            ModelState.AddModelError("LoginError", "Username is required");
-            return Page();
-        }
-
-        if (string.IsNullOrEmpty(password))
-        {
-            ModelState.AddModelError("LoginError", "Password is required");
-        }
 
         if (username == "intern" && password == "summer 2023 july")
         {
@@ -54,12 +43,13 @@ public class IndexModel : PageModel
 
             return RedirectToPage();
         }
-        else
+        else if (!(username == "intern" || string.IsNullOrEmpty(username)) && !(password == "summer 2023 july" || string.IsNullOrEmpty(password)))
         {
             ModelState.AddModelError("LoginError", "Invalid username or password");
             return Page();
         }
 
+        return Page();
     }
     public async Task<IActionResult> OnPostHandleLogout()
     {
